@@ -7,6 +7,7 @@ readinteger <- function(){
 
 montyhall <- function(){
   ### setup ###
+  retval <- -1
   i <- 1 #misc loop counter (OMG arrays start at 1)
   str.goat <- 'Goat'
   str.car <- 'Car'
@@ -44,7 +45,8 @@ montyhall <- function(){
   cat("[Player] Final choice =", player.choice, "(", doors[player.choice], ')\n')
   cat("[Presenter] Doors were :", doors, '\n')
   
-  return('Exit succes') #select first item of randomized array
+  retval=doors[player.choice]
+  return(retval) #select first item of randomized array
 }
 
 montyhall()
