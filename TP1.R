@@ -9,7 +9,7 @@ readinteger <- function(){ #unused
 
 
 # main game fct
-montyhall <- function(){
+montyhall <- function(door.keep='random'){
   cat('\n===== New game =====\n')
   ### setup ###
   retval <- -1
@@ -17,6 +17,11 @@ montyhall <- function(){
   str.goat <- 'Goat'
   str.car <- 'Car'
   
+  if((door.keep!='random') && (door.keep!='keep') && (door.keep!='change')){
+    door.keep <- 'random' #whooooo, what have you done with the config child ??
+  }
+  cat('Strategy : door =', door.keep, '\n')
+
   doors <- c(str.car, str.goat, str.goat) #compose
   doors <- sample(doors) #randomize
   
@@ -34,8 +39,13 @@ montyhall <- function(){
   }
   
   ### player : keep same door ? ###
-  keep <- sample(c(TRUE,FALSE), size=1)
-  #keep <- TRUE
+  if(door.keep=='keep'){
+    keep <- TRUE
+  }else if(door.keep=='change'){
+    keep <- FALSE
+  }else{ #random : redundant with keep.door='random' 
+    keep <- sample(c(TRUE,FALSE), size=1)
+  }
   cat('[Player] Keep door', player.choice, '?', keep, '\n')
   
   if(keep==FALSE){
@@ -62,7 +72,7 @@ stats <- function(nb.iter){
   results <- c() #init empty
 
   for(i in 1:nb.iter){
-    results <- c(results, montyhall())
+    results <- c(results, montyhall(door.keep='random'))
   }
 
   return(results)
