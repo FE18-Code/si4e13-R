@@ -67,17 +67,41 @@ montyhall <- function(door.keep='random'){
 }
 
 
-# simulation fct (tested nb.iter times)
-stats <- function(nb.iter){
-  results <- c() #init empty
+# simulation fct
+stats <- function(){
+  nb.iter <- 1000
+  results.random <- c() #init empty
+  results.keepdoor <- c() #init empty
+  results.changedoor <- c() #init empty
 
+  #run tests
   for(i in 1:nb.iter){
-    results <- c(results, montyhall(door.keep='random'))
+    results.random <- c(results.random, montyhall(door.keep='random'))
+  }
+  for(i in 1:nb.iter){
+    results.keepdoor <- c(results.keepdoor, montyhall(door.keep='keep'))
+  }
+  for(i in 1:nb.iter){
+    results.changedoor <- c(results.changedoor, montyhall(door.keep='change'))
   }
 
-  return(results)
+  #format results
+  table.random <- table(results.random)
+  table.keepdoor <- table(results.keepdoor)
+  table.changedoor <- table(results.changedoor)
+
+  results.all <- matrix(c(table.random, table.keepdoor, table.changedoor), ncol=2, byrow=TRUE)
+  colnames(results.all) <- c("Cars", "Goats")
+  rownames(results.all) <- c("Random", "Keep door", "Change door")
+  results.all <- as.table(results.all)
+  
+  #display results
+  cat('\n\n===== RESULTS (results vs strategy for', nb.iter, 'tests) =====\n\n')
+  print(results.all)
+  cat('\n===== RESULTS (results vs strategy for', nb.iter, 'tests) =====\n\n')
+
+
+  return(0)
 }
 
-
-table(stats(100))
-
+stats()
