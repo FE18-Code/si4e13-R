@@ -1,5 +1,7 @@
 #!/usr/bin/Rscript
 
+colors <- c('red', 'green', 'blue', 'purple', 'orange', 'black', 'pink', 'cyan', 'yellow', 'white')
+
 portes <- c("chevre","chevre","voiture")
 
 nb.exp <- 100
@@ -57,8 +59,12 @@ R0.th <- function(n,N){
 
 res <- c()
 nb.experiences <- 1000
-for (l in 1:100)
+for (l in 1:1000)
   res <- c(res, estim.R(0,n,N,nb.experiences))
 
 ### un diagramme à moustaches centré sur la valeur théorique
-boxplot(res-R0.th(n,N))
+#boxplot(res-R0.th(n,N))
+boxplot(res)
+plot(res, col = sample(colors))
+hist(res, col = sample(colors))
+
