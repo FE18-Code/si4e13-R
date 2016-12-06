@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
-colors <- c('red', 'green', 'blue', 'purple', 'orange', 'black', 'pink', 'cyan', 'yellow', 'white')
+colors <- c('red', 'green', 'blue', 'purple', 'orange', 'black', 'pink', 'cyan', 'yellow', 'magenta', 'white')
 
 portes <- c("chevre","chevre","voiture")
 
@@ -63,11 +63,24 @@ for (l in 1:1000)
   res <- c(res, estim.R(0,n,N,nb.experiences))
 
 ### un diagramme à moustaches centré sur la valeur théorique
-#boxplot(res-R0.th(n,N))
+boxplot(res-R0.th(n,N))
+
+
+### visualisation densité gaussienne
 boxplot(res)
 plot(res, col = sample(colors))
 hist(res, col = sample(colors, 1), probability=TRUE)
 
 x <- seq(from=0.05, to=0.40, by=0.001)
 densite.normale <- dnorm(x, mean=mean(res), sd=sd(res))
-points(x, densite.normale, pch='.', col=sample(colors, 1))
+lines(x, densite.normale, pch='.', col=sample(colors, 1))
+
+
+### visualisation de la fct de répartition
+x <- seq(from=-3, to=3, by=0.01)
+densite.normale <- dnorm(x, mean=0, sd=1)
+cdf.normale <- pnorm(x, mean=0, sd=1)
+q.normale <- qnorm(seq(0.01:0.01:0.99), mean=0, sd=1)
+plot(x, cdf.normale, pch='.', col=sample(colors,1))
+lines(seq(0.01:0.01:0.99), q.normale, pch='.', col=sample(colors,1))
+grid()
